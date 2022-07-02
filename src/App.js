@@ -55,13 +55,15 @@ export const ColorStack = Factory(() => ({
 }));
 
 function Thingy() {
-  const shader = useShader(() =>
-    CustomShaderMaterialMasterNode({
-      position: AnimationStack(),
-      diffuseColor: ColorStack({
-        color: ColorNode({ value: new Color("hotpink") }),
+  const shader = useShader(
+    () =>
+      CustomShaderMaterialMasterNode({
+        position: AnimationStack(),
+        diffuseColor: ColorStack({
+          color: ColorNode({ value: new Color("hotpink") }),
+        }),
       }),
-    })
+    []
   );
 
   return (
