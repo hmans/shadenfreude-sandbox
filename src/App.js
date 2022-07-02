@@ -145,10 +145,18 @@ export default function App() {
       }}
     >
       <color args={["#445566"]} attach="background" />
-      <Environment preset="apartment" />
-      <OrbitControls />
+      <fog args={["#445566", 32, 128]} attach="fog" />
+      <ambientLight intensity={0.5} />
+      <directionalLight intensity={0.5} position={[10, 10, 10]} />
+      <directionalLight intensity={0.5} position={[-10, 10, 10]} />
+      <OrbitControls maxPolarAngle={Math.PI / 2} makeDefault />
       <PerspectiveCamera position={[0, 0, 20]} makeDefault />
       <PostProcessing />
+
+      <mesh position-y={-55}>
+        <cylinderGeometry args={[10, 15, 100, 64]} />
+        <meshStandardMaterial color="#888" metalness={0.5} roughness={0.7} />
+      </mesh>
 
       <Thingy />
     </Canvas>
