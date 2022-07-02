@@ -51,6 +51,9 @@ export const AnimationStack = Factory(() => ({
   The following filters are a chain of shader nodes, each of which
   transforming the output value of the previous filter, until the final
   result is returned from this node.
+
+  The actual nodes we're using here are defined within this sandbox,
+  in the `nodes.js` module. Take a look!
   */
 
   filters: [
