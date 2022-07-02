@@ -1,9 +1,7 @@
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useMemo } from "react";
+import { Canvas } from "@react-three/fiber";
 import {
   ColorNode,
-  compileShader,
   CustomShaderMaterialMasterNode,
   Factory,
   FresnelNode,
@@ -16,8 +14,9 @@ import { Color, LinearEncoding, MeshStandardMaterial } from "three";
 import CustomShaderMaterial from "three-custom-shader-material";
 import { MoveWithTime, ScaleWithTime, SqueezeWithTime } from "./nodes";
 import { PostProcessing } from "./PostProcessing";
+import { useShader } from "./useShader";
 
-const AnimationStack = Factory(() => ({
+export const AnimationStack = Factory(() => ({
   name: "Animation Stack",
   in: {
     origin: vec3(GeometryPositionNode()),
@@ -36,7 +35,7 @@ const AnimationStack = Factory(() => ({
   ],
 }));
 
-const ColorStack = Factory(() => ({
+export const ColorStack = Factory(() => ({
   name: "Color Stack",
   in: {
     color: vec3(ColorNode({ value: new Color("hotpink") })),
@@ -55,23 +54,13 @@ const ColorStack = Factory(() => ({
   ],
 }));
 
-function useShader() {
-  const [shader, update] = useMemo(() => {
-    const root = CustomShaderMaterialMasterNode({
+function Thingy() {
+  const shader = useShader(() =>
+    CustomShaderMaterialMasterNode({
       position: AnimationStack(),
       diffuseColor: ColorStack(),
-    });
-
-    return compileShader(root);
-  }, []);
-
-  useFrame((_, dt) => update(dt));
-
-  return shader;
-}
-
-function Thingy() {
-  const shader = useShader();
+    })
+  );
 
   return (
     <mesh>
