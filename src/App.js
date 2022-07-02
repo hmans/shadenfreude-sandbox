@@ -1,4 +1,8 @@
-import { Environment, OrbitControls } from "@react-three/drei";
+import {
+  Environment,
+  OrbitControls,
+  PerspectiveCamera,
+} from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   ColorNode,
@@ -132,6 +136,7 @@ export default function App() {
     <Canvas>
       <Environment preset="studio" background />
       <OrbitControls />
+      <PerspectiveCamera position={[0, 0, 20]} makeDefault />
 
       <Thingy />
     </Canvas>
