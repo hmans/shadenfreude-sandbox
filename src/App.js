@@ -38,7 +38,7 @@ export const AnimationStack = Factory(() => ({
 export const ColorStack = Factory(() => ({
   name: "Color Stack",
   in: {
-    color: vec3(ColorNode({ value: new Color("hotpink") })),
+    color: vec3(),
   },
   out: {
     value: vec3("in_color"),
@@ -46,7 +46,7 @@ export const ColorStack = Factory(() => ({
   filters: [
     MixNode({
       b: MultiplyNode({
-        a: new Color(1, 1, 1),
+        a: new Color(2, 2, 2),
         b: FresnelNode(),
       }),
       amount: 0.5,
@@ -58,7 +58,9 @@ function Thingy() {
   const shader = useShader(() =>
     CustomShaderMaterialMasterNode({
       position: AnimationStack(),
-      diffuseColor: ColorStack(),
+      diffuseColor: ColorStack({
+        color: ColorNode({ value: new Color("hotpink") }),
+      }),
     })
   );
 
