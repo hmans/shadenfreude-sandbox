@@ -1,5 +1,5 @@
 import { Environment, OrbitControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import {
   ColorNode,
   compileShader,
@@ -25,13 +25,13 @@ const AnimationStack = Factory(() => ({
     value: vec3("in_origin"),
   },
   filters: [
-    SqueezeWithTime({ frequency: 0.1 }),
+    SqueezeWithTime({ frequency: 0.8 }),
     ScaleWithTime("x")({ frequency: 0.2 }),
-    ScaleWithTime("y")({ frequency: 0.1 }),
-    ScaleWithTime("z")({ frequency: 0.3 }),
-    MoveWithTime("x")({ frequency: 0.8, amplitude: 2 }),
-    MoveWithTime("y")({ frequency: 0.6, amplitude: 1 }),
-    MoveWithTime("z")({ frequency: 0.3, amplitude: 2 }),
+    ScaleWithTime("y")({ frequency: 0.2 }),
+    ScaleWithTime("z")({ frequency: 0.1 }),
+    MoveWithTime("x")({ frequency: 0.8, amplitude: 0.8 }),
+    MoveWithTime("y")({ frequency: 0.6, amplitude: 0.5 }),
+    MoveWithTime("z")({ frequency: 0.3, amplitude: 0.8 }),
   ],
 }));
 
@@ -95,7 +95,7 @@ const ColorStack = Factory(() => ({
   filters: [
     MixNode({
       b: MultiplyNode({
-        a: new Color(2, 2, 2),
+        a: new Color(1, 1, 1),
         b: FresnelNode(),
       }),
       amount: 0.5,
@@ -109,14 +109,20 @@ function useShader() {
     diffuseColor: ColorStack(),
   });
 
-  return compileShader(root);
+  const [shader, update] = compileShader(root);
+
+  useFrame((_, dt) => update(dt));
+
+  return shader;
 }
 
 function Thingy() {
+  const shader = useShader();
+
   return (
     <mesh>
-      <boxGeometry />
-      <CustomShaderMaterial baseMaterial={MeshStandardMaterial} />
+      <sphereGeometry args={[2, 64, 64]} />
+      <CustomShaderMaterial baseMaterial={MeshStandardMaterial} {...shader} />
     </mesh>
   );
 }
