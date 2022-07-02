@@ -1,8 +1,4 @@
-import {
-  Environment,
-  OrbitControls,
-  PerspectiveCamera,
-} from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useMemo } from "react";
 import {
@@ -18,12 +14,7 @@ import {
   TimeNode,
   vec3,
 } from "shadenfreude";
-import {
-  Color,
-  LinearEncoding,
-  MeshStandardMaterial,
-  sRGBEncoding,
-} from "three";
+import { Color, LinearEncoding, MeshStandardMaterial } from "three";
 import CustomShaderMaterial from "three-custom-shader-material";
 import { PostProcessing } from "./PostProcessing";
 
