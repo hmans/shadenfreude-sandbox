@@ -17,8 +17,9 @@ import {
   TimeNode,
   vec3,
 } from "shadenfreude";
-import { Color, MeshStandardMaterial } from "three";
+import { Color, LinearEncoding, MeshStandardMaterial } from "three";
 import CustomShaderMaterial from "three-custom-shader-material";
+import { PostProcessing } from "./PostProcessing";
 
 const AnimationStack = Factory(() => ({
   name: "Animation Stack",
@@ -133,11 +134,21 @@ function Thingy() {
 
 export default function App() {
   return (
-    <Canvas>
+    <Canvas
+      flat
+      gl={{
+        outputEncoding: LinearEncoding,
+        powerPreference: "high-performance",
+        alpha: false,
+        depth: true,
+        stencil: false,
+      }}
+    >
       <color args={["#445566"]} attach="background" />
-      <Environment preset="sunset" />
+      <Environment preset="apartment" />
       <OrbitControls />
       <PerspectiveCamera position={[0, 0, 20]} makeDefault />
+      <PostProcessing />
 
       <Thingy />
     </Canvas>
