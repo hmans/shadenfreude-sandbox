@@ -4,6 +4,7 @@ import {
   PerspectiveCamera,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { useMemo } from "react";
 import {
   ColorNode,
   compileShader,
@@ -114,12 +115,14 @@ const ColorStack = Factory(() => ({
 }));
 
 function useShader() {
-  const root = CustomShaderMaterialMasterNode({
-    position: AnimationStack(),
-    diffuseColor: ColorStack(),
-  });
+  const [shader, update] = useMemo(() => {
+    const root = CustomShaderMaterialMasterNode({
+      position: AnimationStack(),
+      diffuseColor: ColorStack(),
+    });
 
-  const [shader, update] = compileShader(root);
+    return compileShader(root);
+  }, []);
 
   useFrame((_, dt) => update(dt));
 
