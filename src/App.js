@@ -134,7 +134,8 @@ function Thingy() {
 export default function App() {
   return (
     <Canvas>
-      <Environment preset="studio" background />
+      <color args={["#445566"]} attach="background" />
+      <Environment preset="sunset" />
       <OrbitControls />
       <PerspectiveCamera position={[0, 0, 20]} makeDefault />
 
