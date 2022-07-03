@@ -56,10 +56,10 @@ fragment colors, the other for animating vertex positions.
 export const AnimationStack = Factory(() => ({
   name: "Animation Stack",
   inputs: {
-    origin: vec3(VertexPositionNode()),
+    a: vec3(VertexPositionNode()),
   },
   outputs: {
-    value: vec3("inputs.origin"),
+    value: vec3("inputs.a"),
   },
 
   /*
