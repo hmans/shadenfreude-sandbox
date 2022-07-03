@@ -19,10 +19,10 @@ import {
   CustomShaderMaterialMasterNode,
   Factory,
   FresnelNode,
-  VertexPositionNode,
   MixNode,
   MultiplyNode,
   vec3,
+  VertexPositionNode,
 } from "shadenfreude";
 import { Color, LinearEncoding, MeshStandardMaterial } from "three";
 import CustomShaderMaterial from "three-custom-shader-material";
@@ -32,10 +32,25 @@ import { useShader } from "./useShader";
 
 /*
 Shadenfreude is a library for creating custom shaders from a tree of
-nodes. These can be simple, or complex! In this example, we're using
-the built-in filter feature to create "stacks" -- sequences of
-transformations on both the vertex positions and frag colors that all
-add up to one funky shader effect.
+nodes. These can be simple, or complex! But either way, they're always
+just simple JavaScript objects. You can create them directly, or you
+can write component-like functions that return them:
+*/
+
+const MyFresnel = (color = new Color("white")) =>
+  MultiplyNode({
+    a: color,
+    b: FresnelNode(),
+  });
+
+/*
+You can build your shaders as a tree of nodes, like you might have done
+it in tools like ShaderGraph before -- but Shadenfreude also supports
+the concept of "stacks" -- nodes that pass their return value through
+a sequence of other nodes before the final value is returned.
+
+This example makes use of two of these stacks: one for transforming
+fragment colors, the other for animating vertex positions.
 */
 
 export const AnimationStack = Factory(() => ({
@@ -93,10 +108,7 @@ export const ColorStack = Factory(() => ({
     // be set to the ColorStack's current output value.
     // */
     MixNode({
-      b: MultiplyNode({
-        a: new Color(2, 2, 2),
-        b: FresnelNode(),
-      }),
+      b: MyFresnel(new Color(2, 2, 2)),
       amount: 0.5,
     }),
   ],
