@@ -19,7 +19,7 @@ import {
   CustomShaderMaterialMasterNode,
   Factory,
   FresnelNode,
-  GeometryPositionNode,
+  VertexPositionNode,
   MixNode,
   MultiplyNode,
   vec3,
@@ -40,11 +40,11 @@ add up to one funky shader effect.
 
 export const AnimationStack = Factory(() => ({
   name: "Animation Stack",
-  in: {
-    origin: vec3(GeometryPositionNode()),
+  inputs: {
+    origin: vec3(VertexPositionNode()),
   },
-  out: {
-    value: vec3("in_origin"),
+  outputs: {
+    value: vec3("inputs.origin"),
   },
 
   /*
@@ -73,11 +73,11 @@ Let's do the same thing for color!
 
 export const ColorStack = Factory(() => ({
   name: "Color Stack",
-  in: {
+  inputs: {
     color: vec3(),
   },
-  out: {
-    value: vec3("in_color"),
+  outputs: {
+    value: vec3("inputs.color"),
   },
 
   /*
@@ -87,11 +87,11 @@ export const ColorStack = Factory(() => ({
   */
 
   filters: [
-    /*
-    Let's blend the current color with another one. Note how we're
-    not defining an `a` prop here; this is because it will automatically
-    be set to the ColorStack's current output value.
-    */
+    // /*
+    // Let's blend the current color with another one. Note how we're
+    // not defining an `a` prop here; this is because it will automatically
+    // be set to the ColorStack's current output value.
+    // */
     MixNode({
       b: MultiplyNode({
         a: new Color(2, 2, 2),
@@ -122,7 +122,7 @@ function Thingy() {
       CustomShaderMaterialMasterNode({
         position: AnimationStack(),
         diffuseColor: ColorStack({
-          color: ColorNode({ value: new Color("hotpink") }),
+          color: ColorNode({ a: new Color("hotpink") }),
         }),
       }),
     []
