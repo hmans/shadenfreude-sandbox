@@ -14,8 +14,7 @@
     "react-scripts": "5.0.1",
     "shadenfreude": "0.0.0-canary-20220703124304",
     "three": "^0.142.0",
-    "three-custom-shader-material": "^3.4.4",
-    "web-vitals": "^2.1.0"
+    "three-custom-shader-material": "^3.4.4"
   },
   "scripts": {
     "start": "react-scripts start",
